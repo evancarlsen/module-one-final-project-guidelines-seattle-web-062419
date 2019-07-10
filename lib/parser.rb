@@ -62,17 +62,27 @@ class Parser
 
 
     def self.random_rover_api
-        rover_name = @@rover_names.sample
+        rover_name = "Curiosity"#@@rover_names.sample
         rover_url = "https://api.nasa.gov/mars-photos/api/v1/manifests/" + rover_name
         rover_url << "?api_key=" + @@key
         rover_data = RestClient.get(rover_url)
         rover_hash = JSON.parse(rover_data)
         all_photos = rover_hash["photo_manifest"]["photos"]
-        date = (all_photos.sample)["earth_date"]
-        puts
-        puts
-        puts
-        puts date
+        date = nil
+        while date == nil
+            puts rover_name
+            date = (all_photos.sample)["earth_date"]
+        end
+        possible_cameras = @@camera_rover_hash[rover_name]
+        camera = possible_cameras.sample
+        url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + rover_name
+        url << "/photos?earth_date=" + date
+        url << "&camera=" + camera.downcase
+        url << "&api_key=" + @@key
+        photo_data = RestClient.get(url)
+        photo_hash = JSON.parse(photo_data)
+        photo_url = photo_hash["photos"][0]["img_src"]
+        system "open #{photo_url}"
     end
 
 
