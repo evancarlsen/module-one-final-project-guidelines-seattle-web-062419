@@ -4,6 +4,7 @@ class Parser
     @@rover_names =[]
     @@camera_names =[]
     @@camera_rover_hash={}
+    @@key = ""
     def self.camera_names
         @@camera_names
     end
@@ -22,9 +23,9 @@ class Parser
     end
 
     def self.get_array
-        key = ENV["API_KEY"]
+        @@key = ENV["API_KEY"]
         rover_url = "https://api.nasa.gov/mars-photos/api/v1/rovers?api_key="
-        rover_url << key
+        rover_url << @@key
         rovers = RestClient.get(rover_url)
         rover_array = JSON.parse(rovers)["rovers"]
     end
@@ -58,4 +59,24 @@ class Parser
         end
         new_hash
     end
+
+
+    def self.random_rover_api
+        rover_name = @@rover_names.sample
+        rover_url = "https://api.nasa.gov/mars-photos/api/v1/manifests/" + rover_name
+        rover_url << "?api_key=" + @@key
+        rover_data = RestClient.get(rover_url)
+        rover_hash = JSON.parse(rover_data)
+        all_photos = rover_hash["photo_manifest"]["photos"]
+        date = (all_photos.sample)["earth_date"]
+        puts
+        puts
+        puts
+        puts date
+    end
+
+
+    # def self.find_random_photo
+        
+    # end
 end

@@ -38,5 +38,14 @@ class Populate
         RoverCamera.destroy_all
     end
 
+    def self.most_recent_photo_url
+        #return url
+    end
+
+    def self.get_random_photo
+        #adds a photo to the db
+
+
+    end
 
 end
