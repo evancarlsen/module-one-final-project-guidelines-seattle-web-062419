@@ -7,7 +7,7 @@ class Interface
     def self.runner
         main_menu
         input = user_input
-        while input
+        while input != 'quit'
             case input
             when '1'
             Interface.most_recent_photo
