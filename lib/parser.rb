@@ -11,7 +11,7 @@ class Parser
     end
 
     def self.get_array
-        key = Interface.get_api_key
+        key = ENV["API_KEY"]
         rover_url = "https://api.nasa.gov/mars-photos/api/v1/rovers?api_key="
         rover_url << key
         rovers = RestClient.get(rover_url)
