@@ -1,13 +1,24 @@
 require_relative '../config/environment'
 require 'JSON'
 class Parser
-    
+    @@rover_names =[]
+    @@camera_names =[]
+    @@camera_rover_hash={}
+    def self.camera_names
+        @@camera_names
+    end
+    def self.rover_names
+        @@rover_names
+    end
+    def self.camera_rover_hash
+        @@camera_rover_hash
+    end
+
     def self.start_parsing
         rover_array = get_array
-        rover_names = get_rover_names(rover_array)
-        camera_names = get_camera_names(rover_array)
-        puts camera_names
-
+        @@rover_names = get_rover_names(rover_array)
+        @@camera_names = get_camera_names(rover_array)
+        @@camera_rover_hash = get_camera_rover_hash(rover_array)
     end
 
     def self.get_array
@@ -23,12 +34,13 @@ class Parser
             rover_hash["name"]
         end
     end
-
+    
     def self.cameras_from_rover(rover_hash)
         cameras = rover_hash["cameras"].map do |camera_hash|
             camera_hash["name"]
         end
     end
+
 
     def self.get_camera_names(rover_array)
         camera_names = []
@@ -36,5 +48,14 @@ class Parser
             camera_names << cameras_from_rover(rover_hash)
         end
         camera_names.flatten.uniq!
+    end
+
+    def self.get_camera_rover_hash(rover_array)
+        new_hash = {}
+        rover_array.each do |rover|
+            new_hash[rover["name"]] = cameras_from_rover(rover)
+
+        end
+        new_hash
     end
 end
