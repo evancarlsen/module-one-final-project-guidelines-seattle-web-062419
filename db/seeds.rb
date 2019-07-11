@@ -26,4 +26,3 @@ new_photo = Photo.create(
     fav: 0,
     rover_camera_id: rc1.id
 )
-puts new_photo.rover_camera.rover.name

@@ -1,4 +1,5 @@
 require_relative '../config/environment'
+
 class Populate
 
     def self.start
@@ -33,11 +34,20 @@ class Populate
     end
 
     def self.populate_photos(photo_hash)
-        # Photo.create(:url => Parser.get_photo_hash["photos"][0]["img_src"])
-        # Photo.create(:earth_day => )
-        # Photo.create(:fav => )
-        # Photo.create(:rover_camera_id => )
+        puts photo_hash
+        #binding.pry
 
+        photo_hash["photos"].each do |photo|
+            rover_name = photo["rover"]["name"]
+            rover = Rover.find(name: rover_name)
+
+            Photo.create(
+                url: photo["img_src"],
+                earth_day: photo["earth_date"],
+                fav: 0,
+                rover_camera_id: rover.id
+            )
+        end
     end
 
     def self.destroy_tables
