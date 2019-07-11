@@ -33,7 +33,7 @@ class Populate
     end
 
     def self.populate_photos
-        Parser.get_photo_hash(url, earth_day, rover_camera_id, fav)
+        Parser.get_photo_hash(url, earth_day, fav, rover_camera_id)
     end
 
     def self.destroy_tables
