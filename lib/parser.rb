@@ -73,6 +73,7 @@ class Parser
             puts rover_name
             date = (all_photos.sample)["earth_date"]
         end
+        
         possible_cameras = @@camera_rover_hash[rover_name]
         camera = possible_cameras.sample
         url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + rover_name
@@ -81,7 +82,14 @@ class Parser
         url << "&api_key=" + @@key
         photo_data = RestClient.get(url)
         photo_hash = JSON.parse(photo_data)
-        photo_url = photo_hash["photos"][0]["img_src"]
+        
+        # explicitly define a default photo URL, then use it as the one we'll show
+        default_photo_url = "https://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/02462/opgs/edr/fcam/FLB_616051613EDR_F0761714FHAZ00337M_.JPG"
+        photo_url = default_photo_url
+        if photo_hash["photos"].length > 1
+            # if another photo is available then use that photo
+            photo_url = photo_hash["photos"][0]["img_src"]
+        end
         system "open #{photo_url}"
     end
 
@@ -89,4 +97,16 @@ class Parser
     # def self.find_random_photo
         
     # end
+
+    def self.get_photo_by_earth_date
+        url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + Interface.rover_name.downcase
+        url << "/photos?earth_date=" + Interface.earth_date 
+        url << "&api_key=" + @@key
+        photo_data = RestClient.get(url)
+        photo_hash = JSON.parse(photo_data)
+        photo_url = photo_hash["photos"][0]["img_src"]
+        system "open #{photo_url}"
+        
+        Populate.populate_photos(photo_hash)
+    end
 end

@@ -1,4 +1,5 @@
 require_relative '../config/environment'
+
 class Populate
 
     def self.start
@@ -29,6 +30,23 @@ class Populate
                 new_camera_id = (Camera.find_by name: camera).id
                 RoverCamera.create(rover_id: new_rover_id, camera_id: new_camera_id)
             end
+        end
+    end
+
+    def self.populate_photos(photo_hash)
+        puts photo_hash
+        #binding.pry
+
+        photo_hash["photos"].each do |photo|
+            rover_name = photo["rover"]["name"]
+            rover = Rover.find(name: rover_name)
+
+            Photo.create(
+                url: photo["img_src"],
+                earth_day: photo["earth_date"],
+                fav: 0,
+                rover_camera_id: rover.id
+            )
         end
     end
 
