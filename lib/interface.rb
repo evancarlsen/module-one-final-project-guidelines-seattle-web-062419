@@ -36,11 +36,11 @@ class Interface
     end
 
     def self.most_recent_photo
-        rover_name = "Curiosity" # this will be from db later
-        sol = 100 # this will be from db later
+        photo_rover_id_name = "placeholder" # this will be from db later
+        photo_earth_day = 100 # this will be from db later
         puts "****** This is the latest photo from the surface of Mars! ******"
         puts "*                                                              *"
-        puts "         It was taken by #{rover_name} on Sol #{sol}.           "
+        puts "   It was taken by #{photo_rover_id_name} on #{photo_earth_day}."
         puts "*                                                              *"
         puts "*                          Main Menu                           *"
         puts "*                             [5]                              *"
