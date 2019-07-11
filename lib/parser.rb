@@ -104,6 +104,6 @@ class Parser
     def self.get_photo_hash(photo_url)
         photo_data = RestClient.get(photo_url)
         photo_hash = JSON.parse(photo_data)
-        
+        Populate.populate_photos(photo_hash)
     end
 end

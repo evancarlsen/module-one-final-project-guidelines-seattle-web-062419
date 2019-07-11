@@ -32,8 +32,12 @@ class Populate
         end
     end
 
-    def self.populate_photos
-        Parser.get_photo_hash(url, earth_day, fav, rover_camera_id)
+    def self.populate_photos(photo_hash)
+        # Photo.create(:url => Parser.get_photo_hash["photos"][0]["img_src"])
+        # Photo.create(:earth_day => )
+        # Photo.create(:fav => )
+        # Photo.create(:rover_camera_id => )
+
     end
 
     def self.destroy_tables
