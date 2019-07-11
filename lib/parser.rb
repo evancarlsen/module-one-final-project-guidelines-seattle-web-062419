@@ -91,7 +91,9 @@ class Parser
     # end
 
     def self.get_photo_by_earth_date
-        rover_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + Interface.rover_name
+        # example: https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
+        #puts "https://api.nasa.gov/mars-photos/api/v1/rovers/" + Interface.rover_name.downcase + "/photos?earth_date=" + Interface.earth_date + "&api_key=" + @@key
+        url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + Interface.rover_name.downcase
         url << "/photos?earth_date=" + Interface.earth_date 
         url << "&api_key=" + @@key
         photo_data = RestClient.get(url)

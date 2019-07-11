@@ -5,6 +5,14 @@ class Interface
     @@rover_name = ""
     @@earth_date = ""
 
+    def self.rover_name
+        @@rover_name
+    end
+
+    def self.earth_date
+        @@earth_date
+    end
+
     def self.user_input
         gets.strip
     end
@@ -46,11 +54,11 @@ class Interface
         puts "****************************************************************"
         puts "*                         Rover name?                          *"
         puts "*                                                              *"
-        puts "*      [Curiousity]       [Spirit]        [Opportunity]        *"
+        puts "*      [Curiosity]       [Spirit]        [Opportunity]        *"
         puts "*           1                2                  3              *"
         puts "****************************************************************"
         if user_input == '1'
-            @@rover_name = "curiousity"
+            @@rover_name = "curiosity"
         elsif user_input == '2'
             @@rover_name = "spirit"
         elsif user_input == '3'
@@ -69,7 +77,7 @@ class Interface
 
         puts "************** Photo from the surface of Mars! *****************"
         puts "*                                                              *"
-        puts "           Taken by #{@@rover_name} on #{@@earth_date}."
+        puts "                 Taken by #{@@rover_name} on #{@@earth_date}!"
         puts "*                                                              *"
         puts "*                          Main Menu                           *"
         puts "*                             [5]                              *"
