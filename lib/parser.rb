@@ -89,4 +89,14 @@ class Parser
     # def self.find_random_photo
         
     # end
+
+    def self.get_photo_by_earth_date
+        rover_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + Interface.rover_name
+        url << "/photos?earth_date=" + Interface.earth_date 
+        url << "&api_key=" + @@key
+        photo_data = RestClient.get(url)
+        photo_hash = JSON.parse(photo_data)
+        photo_url = photo_hash["photos"][0]["img_src"]
+        system "open #{photo_url}"
+    end
 end

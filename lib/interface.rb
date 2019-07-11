@@ -1,4 +1,9 @@
+require_relative '../config/environment'
+
 class Interface
+
+    @@rover_name = ""
+    @@earth_date = ""
 
     def self.user_input
         gets.strip
@@ -8,7 +13,7 @@ class Interface
         main_menu
         until user_input == 'quit'
             if user_input == '1'
-                Interface.most_recent_photo
+                Interface.search_earth_date
             elsif user_input == '2'
                 Interface.guessing_game
             elsif user_input == '3'
@@ -28,32 +33,57 @@ class Interface
         puts "*                 Please choose an option:                     *"
         puts "****************************************************************"
         puts
-        puts "[1] See the most recent photo from the surface of Mars!"
+        puts "[1] Seach by Earth date"
         puts "[2] Guess the rover and camera type that took the photo"
         puts "[3] See random photos and favorite them"
         puts "[4] See my favorite photos"
         puts "Or type 'quit' to Quit"
     end
 
-    def self.most_recent_photo
-        photo_rover_id_name = "placeholder" # this will be from db later
-        photo_earth_day = 100 # this will be from db later
-        puts "****** This is the latest photo from the surface of Mars! ******"
+    ################################## 1 ######################################
+    def self.search_earth_date
+
+        puts "****************************************************************"
+        puts "*                         Rover name?                          *"
         puts "*                                                              *"
-        puts "   It was taken by #{photo_rover_id_name} on #{photo_earth_day}."
+        puts "*      [Curiousity]       [Spirit]        [Opportunity]        *"
+        puts "*           1                2                  3              *"
+        puts "****************************************************************"
+        if user_input == '1'
+            @@rover_name = "curiousity"
+        elsif user_input == '2'
+            @@rover_name = "spirit"
+        elsif user_input == '3'
+            @@rover_name = "opportunity"
+        else
+            invalid_input
+            search_earth_date
+        end
+
+        puts "****************************************************************"
+        puts "*                             Date?                            *"
+        puts "*                                                              *"
+        puts "*                          (yyyy-mm-dd)                        *"
+        puts "****************************************************************"
+        @@earth_date = user_input
+
+        puts "************** Photo from the surface of Mars! *****************"
+        puts "*                                                              *"
+        puts "           Taken by #{@@rover_name} on #{@@earth_date}."
         puts "*                                                              *"
         puts "*                          Main Menu                           *"
         puts "*                             [5]                              *"
         puts "****************************************************************"
-        # will populate most_recent_photo url
-        # will open most recent photo in browser
+        Parser.get_photo_by_earth_date
         if user_input == "5"
             runner
         else 
             invalid_input
-            most_recent_photo
+            search_earth_date
         end
     end
+
+ ################################## 2 ######################################
 
     def self.guessing_game
         puts "************************ Guessing Game *************************"
@@ -88,6 +118,8 @@ class Interface
         end
     end
 
+ ################################## 3 ######################################
+
     def self.favorite_photos
         puts "************************* Random Photo *************************"
         puts "*                                                              *"
@@ -99,7 +131,7 @@ class Interface
         puts "****************************************************************"
         Parser.random_rover_api
         if user_input == "1"
-            #photo.fav = true
+            photo.fav = true
         elsif user_input == "2"
             favorite_photos
         elsif user_input == "5"
@@ -109,6 +141,8 @@ class Interface
             favorite_photos
         end
     end
+
+ ################################## 4 ######################################
 
     def self.see_favorite_photos
         puts "************************ Your Favorites ************************"
