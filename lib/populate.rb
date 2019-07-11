@@ -32,6 +32,10 @@ class Populate
         end
     end
 
+    def self.populate_photos
+        Parser.get_photo_hash(url, earth_day, rover_camera_id, fav)
+    end
+
     def self.destroy_tables
         Rover.destroy_all
         Camera.destroy_all

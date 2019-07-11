@@ -91,8 +91,6 @@ class Parser
     # end
 
     def self.get_photo_by_earth_date
-        # example: https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
-        #puts "https://api.nasa.gov/mars-photos/api/v1/rovers/" + Interface.rover_name.downcase + "/photos?earth_date=" + Interface.earth_date + "&api_key=" + @@key
         url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + Interface.rover_name.downcase
         url << "/photos?earth_date=" + Interface.earth_date 
         url << "&api_key=" + @@key
@@ -100,5 +98,12 @@ class Parser
         photo_hash = JSON.parse(photo_data)
         photo_url = photo_hash["photos"][0]["img_src"]
         system "open #{photo_url}"
+        get_photo_hash(url)
+    end
+
+    def self.get_photo_hash(photo_url)
+        photo_data = RestClient.get(photo_url)
+        photo_hash = JSON.parse(photo_data)
+        
     end
 end

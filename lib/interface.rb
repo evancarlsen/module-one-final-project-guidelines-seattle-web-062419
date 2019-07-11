@@ -102,7 +102,6 @@ class Interface
         puts "*                1             2          3                    *"
         puts "****************************************************************"
         Parser.random_rover_api
-        input = user_input
         photo_hash = {"rover" => "Curiosity"}
         input_to_rover_map = {
             "1" => "Curiosity", "2" => "Opportunity", "3" => "Spirit"}
