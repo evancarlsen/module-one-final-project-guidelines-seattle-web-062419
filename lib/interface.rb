@@ -138,7 +138,7 @@ class Interface
         puts "****************************************************************"
         Parser.random_rover_api
         if user_input == "1"
-            photo.fav = true
+            Photo.last.fav = 1
         elsif user_input == "2"
             favorite_photos
         elsif user_input == "5"
@@ -159,7 +159,12 @@ class Interface
         puts "*                          [Main Menu]                         *"
         puts "*                               5                              *"
         puts "****************************************************************"
-        # opens all favorite photos
+        Photo.each do |photo|
+            if photo.fav == 1
+                system "open #{Photo.url}"
+            end
+        end
+
         if user_input == "5"
             runner
         else 
