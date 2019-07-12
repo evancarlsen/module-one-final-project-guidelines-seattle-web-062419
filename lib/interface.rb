@@ -2,17 +2,6 @@ require_relative '../config/environment'
 
 class Interface
 
-    @@rover_name = ""
-    @@earth_date = ""
-
-    def self.rover_name
-        @@rover_name
-    end
-
-    def self.earth_date
-        @@earth_date
-    end
-
     def self.user_input
         gets.strip
     end
@@ -37,6 +26,7 @@ class Interface
     end
 
     def self.main_menu
+        system ('clear')
         puts "****************************************************************"
         puts "*         Welcome to the Mars Rover Photos Explorer!           *"
         puts "*                 Please choose an option:                     *"
@@ -59,39 +49,49 @@ class Interface
 
     ################################## 1 ######################################
     def self.search_earth_date
+        rover_name = ""
+        earth_date = ""
 
         puts "****************************************************************"
         puts "*                         Rover name?                          *"
         puts "*                                                              *"
-        puts "*      [Curiosity]       [Spirit]        [Opportunity]         *"
-        puts "*           1                2                  3              *"
+        puts "*      [Curiosity]       [Opportunity]      [sorry Spirit]     *"
+        puts "*           1                  2                  :(           *"
         puts "****************************************************************"
         if user_input == '1'
-            @@rover_name = "curiosity"
+            rover_name = "curiosity"
         elsif user_input == '2'
-            @@rover_name = "spirit"
-        elsif user_input == '3'
-            @@rover_name = "opportunity"
+            rover_name = "opportunity"
         else
             invalid_input
             search_earth_date
         end
 
         puts "****************************************************************"
-        puts "*                             Date?                            *"
+        puts "*                          Earth Date?                         *"
         puts "*                                                              *"
         puts "*                          (yyyy-mm-dd)                        *"
         puts "****************************************************************"
-        @@earth_date = user_input
-
+        # if user_input[4] == "-" && user_input[7] == "-"
+        #     earth_date = user_input
+        # else
+        #     puts invalid_input
+        #     puts "                  Please use format :"
+        #     puts "                     (yyyy-mm-dd)"
+        # end
+        earth_date = user_input
+        photo = Populate.photo_by_date(rover_name, earth_date)
+        #photo = Parser.get_photo_by_earth_date(rover_name, earth_date)
+        #Populate.add_new_photo(photo)
+        system "open #{Photo.last.url}"
         puts "************** Photo from the surface of Mars! *****************"
         puts "*                                                              *"
-        puts "                 Taken by #{@@rover_name} on #{@@earth_date}!"
+        puts "                 Taken by #{rover_name} on #{earth_date}!"
         puts "*                                                              *"
         puts "*                          Main Menu                           *"
         puts "*                             [5]                              *"
         puts "****************************************************************"
-        Parser.get_photo_by_earth_date
+
         if user_input == "5"
             runner
         else 
@@ -114,7 +114,6 @@ class Interface
         system "open #{Photo.last.url}"
         rover_camera = RoverCamera.find(Photo.last.rover_camera_id)
         rover_name = Rover.find(rover_camera.rover_id).name
-        puts rover_name
         if user_input.downcase == rover_name.downcase
             puts " "
             puts "                 Correct! Ur so smart                       "
@@ -123,8 +122,8 @@ class Interface
             puts " "
             puts "                Incorrect! Ur so dumb                       "
             puts " "
-
         end
+
         puts "************************ Guessing Game *************************"
         puts "*                                                              *"
         puts "*                  Which Camera took this?                     *"
@@ -169,7 +168,10 @@ class Interface
         rand_photo = Populate.get_random_photo
         system "open #{Photo.last.url}"
         if user_input == "1"
-            Photo.last.liked = 1
+            photo = Photo.last
+            photo.fav = 1
+            photo.save
+            puts
             puts " "
             puts "                      Saved to favorites!"
             puts " "
@@ -194,9 +196,9 @@ class Interface
         puts "*                          [Main Menu]                         *"
         puts "*                               5                              *"
         puts "****************************************************************"
-        if Photo.where(:liked => 1).any?
-            Photo.all.each do |photo|
-                system "open #{Photo.url}"
+        if Photo.where(:fav => 1).any?
+            Photo.where(:fav => 1).each do |photo|
+                system "open #{photo.url}"
             end
         else
             puts " "

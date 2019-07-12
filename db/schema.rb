@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 8) do
 
   create_table "cameras", force: :cascade do |t|
     t.string "name"
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 6) do
   create_table "photos", force: :cascade do |t|
     t.string  "url"
     t.string  "earth_day"
-    t.binary  "fav"
     t.integer "rover_camera_id"
+    t.integer "fav"
   end
 
   create_table "rover_cameras", force: :cascade do |t|
