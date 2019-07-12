@@ -17,21 +17,41 @@ class Interface
         gets.strip
     end
 
+    # def self.runner
+    #     main_menu
+    #     until user_input == 'quit'
+    #         case user_input
+    #         when '1'
+    #             Interface.search_earth_date
+    #         when '2'
+    #             Interface.guessing_game
+    #         when '3'
+    #             Interface.favorite_photos
+    #         when '4'
+    #             Interface.see_favorite_photos
+    #         else
+    #             invalid_input
+    #             runner
+    #         end
+    #     end
+    # end
+
     def self.runner
         main_menu
-        until user_input == 'quit'
-            if user_input == '1'
-                Interface.search_earth_date
-            elsif user_input == '2'
-                Interface.guessing_game
-            elsif user_input == '3'
-                Interface.favorite_photos
-            elsif user_input == '4'
-                Interface.see_favorite_photos
-            else
-                invalid_input
-                runner
-            end
+        case user_input
+        when '1'
+            Interface.search_earth_date
+        when '2'
+            Interface.guessing_game
+        when '3'
+            Interface.favorite_photos
+        when '4'
+            Interface.see_favorite_photos
+        when 'quit'
+            exit
+        else
+            invalid_input
+            runner
         end
     end
 
@@ -40,7 +60,7 @@ class Interface
         puts "*         Welcome to the Mars Rover Photos Explorer!           *"
         puts "*                 Please choose an option:                     *"
         puts "****************************************************************"
-        puts
+        puts " "
         puts "[1] Seach by Earth date"
         puts "[2] Guess the rover and camera type that took the photo"
         puts "[3] See random photos and favorite them"
@@ -102,10 +122,7 @@ class Interface
         puts "*                1             2          3                    *"
         puts "****************************************************************"
         Parser.random_rover_api
-        photo_hash = {"rover" => "Curiosity"}
-        input_to_rover_map = {
-            "1" => "Curiosity", "2" => "Opportunity", "3" => "Spirit"}
-        if input_to_rover_map[:input] == photo_hash[:rover] # photo_hash[:rover] is temp for testing
+        if user_input.downcase == Photo.rover_camera_id.name.last.downcase
             puts "Correct! Ur so smart"
         else
             puts "Incorrect! Ur so dumb"
@@ -133,12 +150,14 @@ class Interface
         puts "*                      Save to Favorites?                      *"
         puts "*                                                              *"
         puts "*                 [Yes]   [Next]   [Main Menu]                 *" 
-        puts "*                   1        2           5                     *"
+        puts "*                   1        2          5                      *"
         puts "*                                                              *"
         puts "****************************************************************"
         Parser.random_rover_api
         if user_input == "1"
             Photo.last.fav = 1
+            puts "Saved to favorites!"
+            favorite_photos
         elsif user_input == "2"
             favorite_photos
         elsif user_input == "5"
@@ -154,15 +173,20 @@ class Interface
     def self.see_favorite_photos
         puts "************************ Your Favorites ************************"
         puts "*                                                              *"
-        puts "*            You have (fav_photos.count) saved photos          *"
+        puts "          You have #{Photo.where(:fav => 1).count} saved photos "
         puts "*                                                              *"
         puts "*                          [Main Menu]                         *"
         puts "*                               5                              *"
         puts "****************************************************************"
-        Photo.each do |photo|
-            if photo.fav == 1
+        if Photo.where(:fav => 1).any?
+            Photo.all.each do |photo|
                 system "open #{Photo.url}"
             end
+        else
+            puts " "
+            puts "************* You have no favorite photos :( ***************"
+            puts " "
+            runner
         end
 
         if user_input == "5"
