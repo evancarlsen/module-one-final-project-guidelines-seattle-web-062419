@@ -76,7 +76,7 @@ class Populate
         photo_rover_camera_id = RoverCamera.find_by(rover_id: rover_id, camera_id: camera_id).id
         photo_url = photo_hash["url"]
         Photo.create(rover_camera_id: photo_rover_camera_id, url: photo_url, fav: 0)
-
+        Photo.last
     end
 
 end
