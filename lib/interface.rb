@@ -204,5 +204,4 @@ class Interface
         puts "                     >> Invalid Input <<                       "
         puts "                                                               "
     end
-
 end
