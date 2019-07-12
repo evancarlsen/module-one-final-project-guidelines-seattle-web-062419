@@ -68,13 +68,21 @@ class Interface
         puts "Or type 'quit' to Quit"
     end
 
+    def self.menu_bar
+        puts "****************************************************************"
+        puts "*                                                              *"
+        puts "*                  [Continue?]    [Main Menu]                  *"
+        puts "*                      1              5                        *"
+        puts "****************************************************************"
+    end
+
     ################################## 1 ######################################
     def self.search_earth_date
 
         puts "****************************************************************"
         puts "*                         Rover name?                          *"
         puts "*                                                              *"
-        puts "*      [Curiosity]       [Spirit]        [Opportunity]        *"
+        puts "*      [Curiosity]       [Spirit]        [Opportunity]         *"
         puts "*           1                2                  3              *"
         puts "****************************************************************"
         if user_input == '1'
@@ -141,11 +149,7 @@ class Interface
         else
             puts "Incorrect! Ur so dumb"
         end
-        puts "****************************************************************"
-        puts "*                                                              *"
-        puts "*                  [Continue?]    [Main Menu]                  *"
-        puts "*                      1              5                        *"
-        puts "****************************************************************"
+        menu_bar
         if user_input == "1"
             guessing_game
         elsif user_input == "5"
@@ -170,7 +174,9 @@ class Interface
         Parser.random_rover_api
         if user_input == "1"
             Photo.last.fav = 1
+            puts " "
             puts "Saved to favorites!"
+            puts " "
             favorite_photos
         elsif user_input == "2"
             favorite_photos
@@ -200,9 +206,10 @@ class Interface
             puts " "
             puts "************* You have no favorite photos :( ***************"
             puts " "
-            runner
+            puts "                       [Main Menu]                          "
+            puts "                            5                               "
         end
-
+        
         if user_input == "5"
             runner
         else 
