@@ -118,11 +118,25 @@ class Interface
         puts "*                                                              *"
         puts "*                  Which Rover took this?                      *"
         puts "*                                                              *"
-        puts "*          [Curiousity] [Opportunity] [Spirit]                 *" 
-        puts "*                1             2          3                    *"
+        puts "*          [Curiosity] [Opportunity] [Spirit]                  *" 
+        puts "*                                                              *"
         puts "****************************************************************"
         Parser.random_rover_api
-        if user_input.downcase == Photo.rover_camera_id.name.last.downcase
+        if user_input.downcase == Photo.rover_id.name.last.downcase
+            puts "Correct! Ur so smart"
+        else
+            puts "Incorrect! Ur so dumb"
+        end
+        puts "************************ Guessing Game *************************"
+        puts "*                                                              *"
+        puts "*                  Which Camera took this?                     *"
+        puts "*                                                              *"
+        puts "* [FHAZ] [NAVCAM] [MAST] [CHEMCAM] [MAHLI] [MARDI] [RHAZ]      *" 
+        puts "*                                                              *"
+        puts "* [PANCAM] [MINITES] [ENTRY]                                   *"
+        puts "*                                                              *"
+        puts "****************************************************************"
+        if user_input.downcase == Photo.camera_id.name.last.downcase
             puts "Correct! Ur so smart"
         else
             puts "Incorrect! Ur so dumb"
