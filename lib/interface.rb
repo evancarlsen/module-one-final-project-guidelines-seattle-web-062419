@@ -169,7 +169,7 @@ class Interface
         rand_photo = Populate.get_random_photo
         system "open #{Photo.last.url}"
         if user_input == "1"
-            Photo.last.fav = 1
+            Photo.last.liked = 1
             puts " "
             puts "                      Saved to favorites!"
             puts " "
@@ -194,7 +194,7 @@ class Interface
         puts "*                          [Main Menu]                         *"
         puts "*                               5                              *"
         puts "****************************************************************"
-        if Photo.where(:fav => 1).any?
+        if Photo.where(:liked => 1).any?
             Photo.all.each do |photo|
                 system "open #{Photo.url}"
             end
