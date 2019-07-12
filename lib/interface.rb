@@ -110,11 +110,20 @@ class Interface
         puts "*          [Curiosity] [Opportunity] [Spirit]                  *" 
         puts "*                                                              *"
         puts "****************************************************************"
-        Parser.random_rover_api
-        if user_input.downcase == Photo.rover_id.name.last.downcase
-            puts "Correct! Ur so smart"
+        rand_photo = Populate.get_random_photo
+        system "open #{Photo.last.url}"
+        rover_camera = RoverCamera.find(Photo.last.rover_camera_id)
+        rover_name = Rover.find(rover_camera.rover_id).name
+        puts rover_name
+        if user_input.downcase == rover_name.downcase
+            puts " "
+            puts "                 Correct! Ur so smart                       "
+            puts " "
         else
-            puts "Incorrect! Ur so dumb"
+            puts " "
+            puts "                Incorrect! Ur so dumb                       "
+            puts " "
+
         end
         puts "************************ Guessing Game *************************"
         puts "*                                                              *"
@@ -125,10 +134,15 @@ class Interface
         puts "* [PANCAM] [MINITES] [ENTRY]                                   *"
         puts "*                                                              *"
         puts "****************************************************************"
-        if user_input.downcase == Photo.camera_id.name.last.downcase
-            puts "Correct! Ur so smart"
+        camera_name = Camera.find(rover_camera.camera_id).name
+        if user_input.downcase == camera_name.downcase
+            puts " "
+            puts "                 Correct! Ur so smart                       "
+            puts " "
         else
-            puts "Incorrect! Ur so dumb"
+            puts " "
+            puts "                Incorrect! Ur so dumb                       "
+            puts " "
         end
         menu_bar
         if user_input == "1"
@@ -152,11 +166,12 @@ class Interface
         puts "*                   1        2          5                      *"
         puts "*                                                              *"
         puts "****************************************************************"
-        Parser.random_rover_api
+        rand_photo = Populate.get_random_photo
+        system "open #{Photo.last.url}"
         if user_input == "1"
             Photo.last.fav = 1
             puts " "
-            puts "Saved to favorites!"
+            puts "                      Saved to favorites!"
             puts " "
             favorite_photos
         elsif user_input == "2"
