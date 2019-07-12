@@ -66,11 +66,18 @@ class Populate
     end
 
     def self.most_recent_photo_url
-        #return url
+        photo_hash = Parser.get_photo_by_earth_date(rover_name, earth_date)
+        add_new_photo(photo_hash)
     end
 
     def self.get_random_photo
         photo_hash = Parser.get_random_photo
+        add_new_photo(photo_hash)
+    end
+
+
+
+    def self.add_new_photo(photo_hash)
         rover_id = Rover.find_by(name: photo_hash["rover"]).id
         camera_id = Camera.find_by(name: photo_hash["camera"]).id
         photo_rover_camera_id = RoverCamera.find_by(rover_id: rover_id, camera_id: camera_id).id
@@ -78,5 +85,7 @@ class Populate
         Photo.create(rover_camera_id: photo_rover_camera_id, url: photo_url, fav: 0)
         Photo.last
     end
+
+    
 
 end
