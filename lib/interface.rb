@@ -1,8 +1,6 @@
 require_relative '../config/environment'
 
 class Interface
-<<<<<<< HEAD
-=======
 
     @@rover_name = ""
     @@earth_date = ""
@@ -14,7 +12,6 @@ class Interface
     def self.earth_date
         @@earth_date
     end
->>>>>>> bc37e65af14fb8ee2048900b8444cd43d6f0de71
 
     def self.user_input
         gets.strip
@@ -181,8 +178,4 @@ class Interface
         puts "                     >> Invalid Input <<                       "
         puts "                                                               "
     end
-<<<<<<< HEAD
-=======
-
->>>>>>> bc37e65af14fb8ee2048900b8444cd43d6f0de71
 end
