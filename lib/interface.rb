@@ -9,8 +9,8 @@ class Interface
     def self.runner
         main_menu
         case user_input
-        when '1'
-            Interface.search_earth_date
+        #when '1'
+        #    Interface.search_earth_date
         when '2'
             Interface.guessing_game
         when '3'
@@ -32,7 +32,8 @@ class Interface
         puts "*                 Please choose an option:                     *"
         puts "****************************************************************"
         puts " "
-        puts "[1] Seach by Earth date"
+        puts "[1] Not working yet (Search by Earth date)"
+        #puts "[1] Seach by Earth date"
         puts "[2] Guess the rover and camera type that took the photo"
         puts "[3] See random photos and favorite them"
         puts "[4] See my favorite photos"
