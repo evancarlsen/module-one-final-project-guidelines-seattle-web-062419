@@ -64,14 +64,12 @@ class Interface
         puts "****************************************************************"
         puts "*                         Rover name?                          *"
         puts "*                                                              *"
-        puts "*      [Curiosity]       [Spirit]        [Opportunity]         *"
-        puts "*           1                2                  3              *"
+        puts "*      [Curiosity]       [Opportunity]      [sorry Spirit]     *"
+        puts "*           1                  2                  :(           *"
         puts "****************************************************************"
         if user_input == '1'
             @@rover_name = "curiosity"
         elsif user_input == '2'
-            @@rover_name = "spirit"
-        elsif user_input == '3'
             @@rover_name = "opportunity"
         else
             invalid_input
@@ -115,7 +113,6 @@ class Interface
         system "open #{Photo.last.url}"
         rover_camera = RoverCamera.find(Photo.last.rover_camera_id)
         rover_name = Rover.find(rover_camera.rover_id).name
-        puts rover_name
         if user_input.downcase == rover_name.downcase
             puts " "
             puts "                 Correct! Ur so smart                       "
