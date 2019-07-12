@@ -17,25 +17,6 @@ class Interface
         gets.strip
     end
 
-    # def self.runner
-    #     main_menu
-    #     until user_input == 'quit'
-    #         case user_input
-    #         when '1'
-    #             Interface.search_earth_date
-    #         when '2'
-    #             Interface.guessing_game
-    #         when '3'
-    #             Interface.favorite_photos
-    #         when '4'
-    #             Interface.see_favorite_photos
-    #         else
-    #             invalid_input
-    #             runner
-    #         end
-    #     end
-    # end
-
     def self.runner
         main_menu
         case user_input
