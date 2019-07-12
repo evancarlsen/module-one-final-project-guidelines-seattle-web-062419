@@ -60,22 +60,38 @@ class Parser
         new_hash
     end
 
-    def self.get_spirit_photo
+    def self.get_random_photo
+        rover_name = @@rover_names.sample
         rover_url=
-        "https://api.nasa.gov/mars-photos/api/v1/manifests/spirit?api_key=" + @@key
+        "https://api.nasa.gov/mars-photos/api/v1/manifests/#{rover_name}?api_key=" + @@key
         rover_data = RestClient.get(rover_url)
         rover_hash = JSON.parse(rover_data)
         all_sols = rover_hash["photo_manifest"]["photos"]
-        sol_hash = all_sols.sample
-        sol_number = sol_hash["sol"]
-        camera_name = sol_hash["cameras"].sample
-        
-        photo_list_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=" + sol_number.to_s + "&api_key=" + @@key
-        photo_data = RestClient.get(photo_list_url)
-        photo_list = JSON.parse(photo_data)
-        photo_url =  photo_list["photos"].sample["img_src"]
-        system "open #{photo_url}"
+        photo_list = []
+        photo_url = ""
+        camera_name = ""
+        while photo_list.length == 0
+            sol_hash = all_sols.sample
+            sol_number = sol_hash["sol"]
+            camera_name = sol_hash["cameras"].sample
+            
+            photo_list_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=" + sol_number.to_s + "&api_key=" + @@key
+            photo_data = RestClient.get(photo_list_url)
+            photo_list = JSON.parse(photo_data)["photos"]
+            
+
+        end
+        chosen_photo = photo_list.sample
+        photo_url =  chosen_photo["img_src"]
+        camera_name = chosen_photo["camera"]["name"]
+        photo_info_hash = {}
+        photo_info_hash["rover"] = rover_name
+        photo_info_hash["camera"] = camera_name
+        photo_info_hash["url"] = photo_url
+        photo_info_hash
     end
+
+
 
     def self.random_rover_api
         get_spirit_photo

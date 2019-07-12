@@ -1,5 +1,5 @@
 require_relative '../config/environment'
-
+require 'pry'
 class Populate
 
     def self.start
@@ -24,11 +24,20 @@ class Populate
     end
 
     def self.populate_rover_cameras
-        Parser.camera_rover_hash.each do |rover, camera_array|
-            new_rover_id = (Rover.find_by name: rover).id
-            camera_array.each do |camera|
-                new_camera_id = (Camera.find_by name: camera).id
-                RoverCamera.create(rover_id: new_rover_id, camera_id: new_camera_id)
+        # Parser.camera_rover_hash.each do |rover, camera_array|
+        #     new_rover_id = (Rover.find_by name: rover).id
+        #     camera_array.each do |camera|
+        #         new_camera_id = (Camera.find_by name: camera).id
+        #         RoverCamera.create(rover_id: new_rover_id, camera_id: new_camera_id)
+        #     end
+        # end
+        Parser.camera_names.each do |camera|
+            Parser.rover_names.each do |rover|
+                
+                camera_id = Camera.find_by(name: camera).id
+                rover_id = Rover.find_by(name: rover).id
+                RoverCamera.create(rover_id: rover_id, camera_id: camera_id)
+
             end
         end
     end
@@ -61,8 +70,12 @@ class Populate
     end
 
     def self.get_random_photo
-        #adds a photo to the db
-
+        photo_hash = Parser.get_random_photo
+        rover_id = Rover.find_by(name: photo_hash["rover"]).id
+        camera_id = Camera.find_by(name: photo_hash["camera"]).id
+        photo_rover_camera_id = RoverCamera.find_by(rover_id: rover_id, camera_id: camera_id).id
+        photo_url = photo_hash["url"]
+        Photo.create(rover_camera_id: photo_rover_camera_id, url: photo_url, fav: 0)
 
     end
 
