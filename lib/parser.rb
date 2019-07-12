@@ -97,15 +97,20 @@ class Parser
         
     # end
 
-    # def self.get_photo_by_earth_date
-    #     url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + Interface.rover_name.downcase
-    #     url << "/photos?earth_date=" + Interface.earth_date 
-    #     url << "&api_key=" + @@key
-    #     photo_data = RestClient.get(url)
-    #     photo_hash = JSON.parse(photo_data)
-    #     photo_url = photo_hash["photos"][0]["img_src"]
-    #     system "open #{photo_url}"
-        
-    #     Populate.populate_photos(photo_hash)
-    # end
+    def self.get_photo_by_earth_date(rover_name, earth_date)
+        url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + rover_name.downcase
+        url << "/photos?earth_date=" + earth_date 
+        url << "&api_key=" + @@key
+    
+        photo_data = RestClient.get(url)
+        photo_hash = JSON.parse(photo_data)
+        puts photo_hash["photos"][0]
+        photo_url = photo_hash["photos"][0]["img_src"]
+        camera_name = photo_hash["photos"][0]["camera"]["name"]
+        photo_info_hash = {}
+        photo_info_hash["rover"] = rover_name
+        photo_info_hash["camera"] = camera_name
+        photo_info_hash["url"] = photo_url
+        photo_info_hash
+    end
 end
