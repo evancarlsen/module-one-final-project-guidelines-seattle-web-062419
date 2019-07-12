@@ -75,7 +75,12 @@ class Populate
         add_new_photo(photo_hash)
     end
 
-
+    def self.photo_by_date(rover_name, earth_date)
+        puts puts puts
+        photo_hash = Parser.get_photo_by_earth_date(rover_name, earth_date)
+        puts photo_hash
+        #add_new_photo(Parser.get_photo_by_earth_date(rover_name, earth_date))
+    end
 
     def self.add_new_photo(photo_hash)
         rover_id = Rover.find_by(name: photo_hash["rover"]).id
@@ -85,7 +90,4 @@ class Populate
         Photo.create(rover_camera_id: photo_rover_camera_id, url: photo_url, fav: 0)
         Photo.last
     end
-
-    
-
 end

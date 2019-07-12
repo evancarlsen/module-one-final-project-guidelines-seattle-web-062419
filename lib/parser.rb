@@ -42,7 +42,6 @@ class Parser
         end
     end
 
-
     def self.get_camera_names(rover_array)
         camera_names = []
         rover_array.each do |rover_hash|
@@ -79,7 +78,6 @@ class Parser
             photo_data = RestClient.get(photo_list_url)
             photo_list = JSON.parse(photo_data)["photos"]
             
-
         end
         chosen_photo = photo_list.sample
         photo_url =  chosen_photo["img_src"]
@@ -90,8 +88,6 @@ class Parser
         photo_info_hash["url"] = photo_url
         photo_info_hash
     end
-
-
 
     # def self.find_random_photo
         
@@ -104,7 +100,7 @@ class Parser
     
         photo_data = RestClient.get(url)
         photo_hash = JSON.parse(photo_data)
-        puts photo_hash["photos"][0]
+        photo_hash["photos"][0]
         photo_url = photo_hash["photos"][0]["img_src"]
         camera_name = photo_hash["photos"][0]["camera"]["name"]
         photo_info_hash = {}
