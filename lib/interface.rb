@@ -37,6 +37,7 @@ class Interface
     end
 
     def self.main_menu
+        system ('clear')
         puts "****************************************************************"
         puts "*         Welcome to the Mars Rover Photos Explorer!           *"
         puts "*                 Please choose an option:                     *"
@@ -169,7 +170,10 @@ class Interface
         rand_photo = Populate.get_random_photo
         system "open #{Photo.last.url}"
         if user_input == "1"
-            Photo.last.liked = 1
+            photo = Photo.last
+            photo.fav = 1
+            photo.save
+            puts
             puts " "
             puts "                      Saved to favorites!"
             puts " "
@@ -194,9 +198,9 @@ class Interface
         puts "*                          [Main Menu]                         *"
         puts "*                               5                              *"
         puts "****************************************************************"
-        if Photo.where(:liked => 1).any?
-            Photo.all.each do |photo|
-                system "open #{Photo.url}"
+        if Photo.where(:fav => 1).any?
+            Photo.where(:fav => 1).each do |photo|
+                system "open #{photo.url}"
             end
         else
             puts " "
